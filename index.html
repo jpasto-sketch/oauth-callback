@@ -5,12 +5,16 @@
 <body>
 <script>
   const params = new URLSearchParams(window.location.search);
+  const hash = new URLSearchParams(window.location.hash.substring(1));
   const code = params.get('code');
+  const error = params.get('error') || hash.get('error');
+
+  // Debug: mostrar URL completa
+  document.body.innerText = 'URL: ' + window.location.href + '\n\nCODE: ' + code + '\n\nERROR: ' + error;
+
   if (code && window.opener) {
     window.opener.postMessage({ code }, '*');
     window.close();
-  } else {
-    document.body.innerText = 'Token no trobat. Pots tancar aquesta finestra.';
   }
 </script>
 </body>
