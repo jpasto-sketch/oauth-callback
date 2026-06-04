@@ -9,6 +9,48 @@
   code { display: block; background: #f0f0f0; padding: 10px; border-radius: 4px; font-size: 12px; word-break: break-all; margin: 12px 0; }
   button { background: #1E2E53; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-size: 14px; }
   button:hover { background: #2d4278; }
+</style>
+</head>
+<body>
+<div class="box">
+  <div id="codeBox" style="display:none">
+    <h2>✅ Login correcte</h2>
+    <p>Copia aquest codi i enganxa'l a l'aplicació:</p>
+    <code id="codeVal"></code>
+    <button onclick="navigator.clipboard.writeText(document.getElementById('codeVal').textContent).then(()=>this.textContent='✅ Copiat!')">Copiar codi</button>
+  </div>
+  <div id="errorBox" style="display:none">
+    <h2>❌ Error</h2>
+    <p>No s'ha rebut cap codi d'autorització.</p>
+  </div>
+</div>
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const code = params.get('code');
+
+  if (code) {
+    document.getElementById('codeVal').textContent = code;
+    document.getElementById('codeBox').style.display = 'block';
+    // Intentar postMessage
+    if (window.opener) {
+      try { window.opener.postMessage({ code }, '*'); } catch(e) {}
+    }
+  } else {
+    document.getElementById('errorBox').style.display = 'block';
+  }
+</script>
+</body>
+</html><!DOCTYPE html>
+<html>
+<head>
+<title>Auth callback</title>
+<style>
+  body { font-family: sans-serif; padding: 30px; background: #f5f5f5; }
+  .box { background: white; border-radius: 8px; padding: 24px; max-width: 500px; margin: 0 auto; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+  h2 { color: #1E2E53; margin-bottom: 8px; }
+  code { display: block; background: #f0f0f0; padding: 10px; border-radius: 4px; font-size: 12px; word-break: break-all; margin: 12px 0; }
+  button { background: #1E2E53; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-size: 14px; }
+  button:hover { background: #2d4278; }
   .ok { color: #16a34a; font-weight: 600; }
 </style>
 </head>
