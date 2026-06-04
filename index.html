@@ -1,12 +1,13 @@
+
 <!DOCTYPE html>
 <html>
 <head><title>Auth callback</title></head>
 <body>
 <script>
-  const hash = new URLSearchParams(window.location.hash.substring(1));
-  const token = hash.get('access_token');
-  if (token && window.opener) {
-    window.opener.postMessage({ access_token: token }, '*');
+  const params = new URLSearchParams(window.location.search);
+  const code = params.get('code');
+  if (code && window.opener) {
+    window.opener.postMessage({ code }, '*');
     window.close();
   } else {
     document.body.innerText = 'Token no trobat. Pots tancar aquesta finestra.';
